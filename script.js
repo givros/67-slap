@@ -17,7 +17,6 @@ const FAKE_LINES = ["66!", "76!", "68!", "57!", "67?", "..."];
 
 const stage = document.querySelector("#stage");
 const scoreEl = document.querySelector("#score");
-const timerEl = document.querySelector("#timer");
 const comboEl = document.querySelector("#combo");
 const failGauge = document.querySelector("#failGauge");
 const failGaugeSteps = [...failGauge.querySelectorAll("i")];
@@ -32,7 +31,6 @@ const startButton = document.querySelector("#startButton");
 const restartButton = document.querySelector("#restartButton");
 const menuButton = document.querySelector("#menuButton");
 const finalScore = document.querySelector("#finalScore");
-const bestScore = document.querySelector("#bestScore");
 const gameOverSound = new Audio(ASSETS.gameOverSound);
 gameOverSound.loop = true;
 gameOverSound.volume = 0.75;
@@ -42,7 +40,6 @@ const state = {
   score: 0,
   combo: 0,
   fails: 0,
-  elapsedTime: 0,
   yelling: false,
   talking: false,
   slapping: false,
@@ -52,8 +49,6 @@ const state = {
   talkTimer: null,
   slapTimer: null,
   nextYellTimer: null,
-  tickTimer: null,
-  startAt: 0,
 };
 
 function preloadImage(src) {
@@ -100,7 +95,6 @@ function setPose(pose) {
 function updateHud() {
   scoreEl.textContent = state.score;
   comboEl.textContent = `x${state.combo}`;
-  timerEl.textContent = state.elapsedTime.toFixed(1);
   failGaugeSteps.forEach((step, index) => {
     step.classList.toggle("filled", index < state.fails);
   });
@@ -112,12 +106,10 @@ function resetTimers() {
   clearTimeout(state.talkTimer);
   clearTimeout(state.slapTimer);
   clearTimeout(state.nextYellTimer);
-  clearInterval(state.tickTimer);
   state.yellTimer = null;
   state.talkTimer = null;
   state.slapTimer = null;
   state.nextYellTimer = null;
-  state.tickTimer = null;
 }
 
 function getDifficulty() {
@@ -295,24 +287,17 @@ function startGame() {
   state.score = 0;
   state.combo = 0;
   state.fails = 0;
-  state.elapsedTime = 0;
   state.yelling = false;
   state.talking = false;
   state.slapping = false;
   state.lastPhase = null;
   state.samePhaseCount = 0;
-  state.startAt = performance.now();
 
   startScreen.classList.remove("overlay-active");
   endScreen.classList.remove("overlay-active");
   stage.classList.remove("is-yelling");
   setPose("");
   updateHud();
-
-  state.tickTimer = setInterval(() => {
-    state.elapsedTime = (performance.now() - state.startAt) / 1000;
-    updateHud();
-  }, 80);
 
   scheduleNextYell();
 }
@@ -329,12 +314,7 @@ function finishGame() {
   state.slapping = false;
   setPose("");
 
-  const storedBest = Number(localStorage.getItem("best-67-slap") || 0);
-  const newBest = Math.max(storedBest, state.score);
-  localStorage.setItem("best-67-slap", String(newBest));
-
   finalScore.textContent = state.score;
-  bestScore.textContent = newBest;
   endScreen.classList.add("overlay-active");
   playGameOverSound();
 }
@@ -442,7 +422,6 @@ if (new URLSearchParams(window.location.search).get("screen") === "end") {
   state.score = 28;
   state.combo = 3;
   finalScore.textContent = "28";
-  bestScore.textContent = Math.max(58, Number(localStorage.getItem("best-67-slap") || 0));
   startScreen.classList.remove("overlay-active");
   endScreen.classList.add("overlay-active");
   playGameOverSound();
