@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>67 Slap</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell" id="gameShell">
+      <section class="stage" id="stage" aria-label="Game area">
+        <div class="classroom" aria-hidden="true">
+          <div class="window">
+            <span></span>
+            <span></span>
+          </div>
+          <div class="clock"></div>
+          <div class="poster poster-left">WORK<br />HARD</div>
+          <div class="board">
+            <span class="chalk ok">67!</span>
+            <span class="chalk hand-sign">OK</span>
+            <span class="chalk smile">:)</span>
+          </div>
+          <div class="poster poster-right">NO<br /><b>67</b><br />ZONE</div>
+          <div class="door"></div>
+          <div class="desk desk-left"></div>
+          <div class="desk desk-right"></div>
+        </div>
+
+        <header class="hud" aria-live="polite">
+          <div class="hud-card">
+            <span>Score</span>
+            <strong id="score">0</strong>
+          </div>
+          <div class="hud-card hud-card-wide">
+            <span>Time</span>
+            <div class="timer-row">
+              <i class="timer-icon" aria-hidden="true"></i>
+              <strong><span id="timer">30.0</span>s</strong>
+            </div>
+          </div>
+          <div class="hud-card">
+            <span>Combo</span>
+            <strong id="combo">x0</strong>
+          </div>
+          <div class="hud-card gauge-card">
+            <span>67 Gauge</span>
+            <div class="fail-gauge" id="failGauge" aria-label="67 failure gauge">
+              <i></i>
+              <i></i>
+              <i></i>
+            </div>
+          </div>
+        </header>
+
+        <div class="playfield">
+          <div class="speech-bubble" id="speechBubble" aria-hidden="true">67!</div>
+
+          <button class="character" id="character" type="button" aria-label="Slap target">
+            <span class="hair hair-back"></span>
+            <span class="head">
+              <span class="hair hair-front"></span>
+              <span class="eye eye-left"></span>
+              <span class="eye eye-right"></span>
+              <span class="brow brow-left"></span>
+              <span class="brow brow-right"></span>
+              <span class="nose"></span>
+              <span class="mouth"></span>
+              <span class="cheek cheek-left"></span>
+              <span class="cheek cheek-right"></span>
+            </span>
+            <span class="body">
+              <span class="hood"></span>
+              <span class="pocket"></span>
+            </span>
+            <span class="arm arm-left"></span>
+            <span class="arm arm-right"></span>
+            <span class="leg leg-left"></span>
+            <span class="leg leg-right"></span>
+          </button>
+
+          <div class="slap-hand" id="slapHand" aria-hidden="true"></div>
+          <div class="slap-text" id="slapText" aria-hidden="true">SLAP!</div>
+          <div class="hint-panel" aria-hidden="true">
+            <span class="hint-icon">!</span>
+            <strong>Click only</strong>
+            <em>when he screams "67!"</em>
+          </div>
+          <div class="toast" id="toast" aria-live="assertive"></div>
+        </div>
+
+        <section class="overlay overlay-active" id="startScreen" aria-labelledby="title">
+          <div class="menu-panel">
+            <p class="kicker">Cartoon mini game</p>
+            <h1 id="title">67 Slap</h1>
+            <p>Wait for the "67!" shout, slap fast, and avoid swinging at the wrong time.</p>
+            <button class="primary-button" id="startButton" type="button">Start</button>
+          </div>
+        </section>
+
+        <section class="overlay" id="endScreen" aria-labelledby="endTitle">
+          <div class="game-over-burst" aria-hidden="true">
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+            <span>67!</span>
+          </div>
+          <div class="game-over-panel">
+            <h2 id="endTitle">Game over!</h2>
+            <button class="primary-button purple-button" id="restartButton" type="button">Play again</button>
+            <div class="score-box">
+              <span>Your score</span>
+              <strong class="final-score" id="finalScore">0</strong>
+              <hr />
+              <span>Best score</span>
+              <b id="bestScore">0</b>
+            </div>
+            <button class="primary-button blue-button" id="menuButton" type="button">Menu</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
