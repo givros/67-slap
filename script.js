@@ -10,7 +10,6 @@ const ASSETS = {
   },
 };
 
-const GAME_LENGTH = 30;
 const MISS_PENALTY = -1;
 const TIMEOUT_PENALTY = -1;
 const SLAP_PHASE_DURATION = 1300;
@@ -43,7 +42,7 @@ const state = {
   score: 0,
   combo: 0,
   fails: 0,
-  timeLeft: GAME_LENGTH,
+  elapsedTime: 0,
   yelling: false,
   talking: false,
   slapping: false,
@@ -54,7 +53,7 @@ const state = {
   slapTimer: null,
   nextYellTimer: null,
   tickTimer: null,
-  endAt: 0,
+  startAt: 0,
 };
 
 function preloadImage(src) {
@@ -101,7 +100,7 @@ function setPose(pose) {
 function updateHud() {
   scoreEl.textContent = state.score;
   comboEl.textContent = `x${state.combo}`;
-  timerEl.textContent = Math.max(0, state.timeLeft).toFixed(1);
+  timerEl.textContent = state.elapsedTime.toFixed(1);
   failGaugeSteps.forEach((step, index) => {
     step.classList.toggle("filled", index < state.fails);
   });
@@ -296,13 +295,13 @@ function startGame() {
   state.score = 0;
   state.combo = 0;
   state.fails = 0;
-  state.timeLeft = GAME_LENGTH;
+  state.elapsedTime = 0;
   state.yelling = false;
   state.talking = false;
   state.slapping = false;
   state.lastPhase = null;
   state.samePhaseCount = 0;
-  state.endAt = performance.now() + GAME_LENGTH * 1000;
+  state.startAt = performance.now();
 
   startScreen.classList.remove("overlay-active");
   endScreen.classList.remove("overlay-active");
@@ -311,7 +310,7 @@ function startGame() {
   updateHud();
 
   state.tickTimer = setInterval(() => {
-    state.timeLeft = Math.max(0, (state.endAt - performance.now()) / 1000);
+    state.elapsedTime = (performance.now() - state.startAt) / 1000;
     updateHud();
   }, 80);
 
